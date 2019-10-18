@@ -110,7 +110,8 @@ public class InsertKey extends Activity{
                     }
 
                     setEnabledUi(true);
-                    nilaikey.setVisibility(View.VISIBLE); // Saat inilah baru bisa memasukkan key
+                    nilaikey.setVisibility(View.VISIBLE);
+                    insertkey_response.setText(null);// Saat inilah baru bisa memasukkan key
                     if(cbAutoscrolls.isChecked())
                     {
                         insertkey_response.setMovementMethod(new ScrollingMovementMethod());
@@ -124,7 +125,7 @@ public class InsertKey extends Activity{
                         }
                     });
                 } else {
-                    insertkey_response.setText("GOBLOK!!! Sambungin dulu lah walletnya!");
+                    insertkey_response.setText("Sambungin dulu Walletnya!");
                     Toast toast = Toast.makeText(getApplicationContext(),"Not Connect",Toast.LENGTH_SHORT);
                     toast.show();
                 }
@@ -140,6 +141,8 @@ public class InsertKey extends Activity{
                 if(kirim.length()>0) {
                     byte[] buf = kirim.getBytes();
                     mPhysicaloid.write(buf, buf.length);}
+                nilaikey.setText("Done! Press the logo to Exit");
+                nilaikey.setEnabled(false);
             }
         });
 

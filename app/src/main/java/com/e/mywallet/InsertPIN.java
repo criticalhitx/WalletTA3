@@ -111,6 +111,7 @@ public class InsertPIN extends Activity{
 
                     setEnabledUi(true);
                     nilaiPin.setVisibility(View.VISIBLE); // Saat inilah baru bisa memasukkan key
+                    insertpin_response.setText(null);
                     if(cbAutoscrolls.isChecked())
                     {
                         insertpin_response.setMovementMethod(new ScrollingMovementMethod());
