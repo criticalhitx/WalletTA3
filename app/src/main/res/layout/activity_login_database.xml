@@ -29,6 +29,11 @@
         android:layout_marginLeft="50dp"
         android:layout_marginBottom="50dp"/>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/Login_testResponse"/>
+
     <Button
         android:id="@+id/Login_btOpens"
         android:layout_width="300dp"
@@ -68,7 +73,8 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="5dp"
-        android:text="Login" />
+        android:text="Login"
+        android:onClick="userLogin"/>
 
     <Button
         android:id="@+id/Login_Register"

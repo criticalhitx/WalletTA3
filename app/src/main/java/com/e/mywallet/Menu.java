@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 
 public class Menu extends AppCompatActivity {
-
     Button btnCek,btnSend, btnReceive, btnCheck,btnKey, btnInsertKey,btnInsertPin;
     TextView tampil;
 

@@ -44,7 +44,7 @@
 
 
     <Button
-        android:id="@+id/buttonkey"
+        android:id="@+id/Check_Submit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -52,6 +52,7 @@
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
         android:padding="8dp"
-        android:text="Check" />
+        android:text="Check"
+        android:onClick="CheckButton"/>
 
 </LinearLayout>
