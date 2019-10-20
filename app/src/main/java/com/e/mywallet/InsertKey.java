@@ -93,7 +93,7 @@ public class InsertKey extends Activity{
 
                 if(mPhysicaloid.open()) {
                     setEnabledUi(true);
-                    String kirim = getText(R.string.insert_key).toString(); //Mengirim case 4 ke while loop, seharusnya gabung connect btOpens.
+                    String kirim = "219".toString(); //Mengirim case 4 ke while loop, seharusnya gabung connect btOpens.
                     if(kirim.length()>0) {
                         byte[] buf = kirim.getBytes();
                         mPhysicaloid.write(buf, buf.length);

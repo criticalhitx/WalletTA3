@@ -9,7 +9,7 @@
 
 
     <TextView
-        android:id="@+id/text_view_id"
+        android:id="@+id/Check_TulisanBesar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Your Balance"
@@ -29,10 +29,10 @@
         android:src="@drawable/logo_key"/>
 
     <TextView
-        android:id="@+id/et_key"
+        android:id="@+id/Check_key_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="5dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:padding="8dp"
@@ -41,6 +41,21 @@
         android:gravity="center_horizontal"
         android:background="#FFFFFF"
         android:inputType="text" />
+
+    <TextView
+        android:id="@+id/Check_increment_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:padding="8dp"
+        android:layout_centerHorizontal="true"
+        android:hint="Uangmu akan digandakan"
+        android:gravity="center_horizontal"
+        android:background="#FFFFFF"
+        android:inputType="text"
+        android:visibility="gone"/>
 
 
     <Button

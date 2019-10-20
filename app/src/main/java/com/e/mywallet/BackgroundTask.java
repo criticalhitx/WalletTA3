@@ -131,8 +131,8 @@ public class BackgroundTask extends AsyncTask<String,Void,String>{
         }
        else if(result.equals("Login Failed....Try Again.."))
        {
-           //alertDialog.setMessage(result);
-           //alertDialog.show();
+           alertDialog.setMessage(result);
+           alertDialog.show();
 
        }
        else if(result.equals("Login Success....Welcome!"))
