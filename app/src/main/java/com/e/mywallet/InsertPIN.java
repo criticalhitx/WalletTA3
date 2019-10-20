@@ -93,7 +93,7 @@ public class InsertPIN extends Activity{
 
                 if(mPhysicaloid.open()) {
                     setEnabledUi(true);
-                    String kirim = getText(R.string.insert_pin).toString(); //Mengirim case 4 ke while loop, seharusnya gabung connect btOpens.
+                    String kirim = getText(R.string.insert_pin).toString(); //Mengirim case 5 ke while loop, seharusnya gabung connect btOpens.
                     if(kirim.length()>0) {
                         byte[] buf = kirim.getBytes();
                         mPhysicaloid.write(buf, buf.length);
@@ -112,6 +112,7 @@ public class InsertPIN extends Activity{
                     setEnabledUi(true);
                     nilaiPin.setVisibility(View.VISIBLE); // Saat inilah baru bisa memasukkan key
                     insertpin_response.setText(null);
+
                     if(cbAutoscrolls.isChecked())
                     {
                         insertpin_response.setMovementMethod(new ScrollingMovementMethod());
@@ -125,7 +126,6 @@ public class InsertPIN extends Activity{
                         }
                     });
                 } else {
-                    insertpin_response.setText("GOBLOK!!! Sambungin dulu lah walletnya!");
                     Toast toast = Toast.makeText(getApplicationContext(),"Not Connect",Toast.LENGTH_SHORT);
                     toast.show();
                 }
@@ -153,8 +153,18 @@ public class InsertPIN extends Activity{
                 if(kirim.length()>0) {
                     byte[] buf = kirim.getBytes();
                     mPhysicaloid.write(buf, buf.length);}
-                canexit=true;
-                onBackPressed();
+
+
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    canexit=true;
+                    mPhysicaloid.close();
+                    onBackPressed();
+                }
+            }, 1500);
+
             }
         });
     }
@@ -164,7 +174,7 @@ public class InsertPIN extends Activity{
     public void onBackPressed(){
         if (canexit) {
             super.onBackPressed();
-            mPhysicaloid.close();
+
         }
     }
 

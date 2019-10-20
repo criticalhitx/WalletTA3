@@ -26,6 +26,10 @@ public class Menu extends AppCompatActivity {
         btnInsertKey = (Button) findViewById(R.id.buttonInsertKey);
         btnInsertPin = (Button) findViewById(R.id.buttonInsertPin);
 
+
+
+
+
         btnSend.setOnClickListener(new View.OnClickListener()
         {
             @Override
