@@ -48,6 +48,7 @@ public class BackgroundTask extends AsyncTask<String,Void,String>{
             String user_name = params[2];
             String user_pass = params[3];
             String email = params[4];
+            String createdPKey=params[6];
 
             try {
                 URL url =new URL(reg_url);
@@ -59,6 +60,7 @@ public class BackgroundTask extends AsyncTask<String,Void,String>{
                 String data = URLEncoder.encode("firstname","UTF-8") +"="+URLEncoder.encode(firstname,"UTF-8")+"&"+
                               URLEncoder.encode("user_name","UTF-8") +"="+URLEncoder.encode(user_name,"UTF-8")+"&"+
                               URLEncoder.encode("user_pass","UTF-8") +"="+URLEncoder.encode(user_pass,"UTF-8")+"&"+
+                              URLEncoder.encode("p_key","UTF-8") +"="+URLEncoder.encode(createdPKey,"UTF-8")+"&"+
                               URLEncoder.encode("lastname","UTF-8") +"="+URLEncoder.encode(lastname,"UTF-8")+"&"+
                               URLEncoder.encode("email","UTF-8") +"="+URLEncoder.encode(email,"UTF-8");
                 bufferedWriter.write(data);

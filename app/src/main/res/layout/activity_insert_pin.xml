@@ -8,6 +8,7 @@
     android:background="@color/colorPrimary">
 
     <TextView
+        android:id="@+id/InsertPIN_judul"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
@@ -29,20 +30,38 @@
         android:layout_marginBottom="50dp"/>
 
     <EditText
-        android:id="@+id/nilaiPin"
+    android:id="@+id/nilaiPin"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentTop="true"
+    android:layout_centerHorizontal="true"
+    android:background="#ffffff"
+    android:hint="Enter Your OLD PIN"
+    android:padding="5dp"
+    android:inputType="text"
+    android:visibility="invisible"/>
+
+    <EditText
+        android:id="@+id/InsertPIN_pinbaru"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:background="#ffffff"
-        android:hint="Input your key"
+        android:hint="Enter your new PIN"
         android:padding="5dp"
         android:inputType="text"
-        android:visibility="invisible"/>
+        android:visibility="gone"/>
+
     <TextView
         android:id="@+id/insertpin_response"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/insertpin_res2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <Button
         android:id="@+id/btOpenz"
         android:layout_width="300dp"
@@ -60,7 +79,18 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_margin="6dp"
-        android:text="Send" />
+        android:text="Send Your Old PIN"
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/InsertPIN_btNewPIN"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="6dp"
+        android:text="Send Your New PIN"
+        android:visibility="gone"/>
+
 
     <ScrollView
         android:id="@+id/SCROLLER_ID"

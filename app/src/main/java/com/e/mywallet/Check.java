@@ -5,12 +5,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import org.w3c.dom.Text;
 import android.os.Handler;
+
+import com.physicaloid.lib.Physicaloid;
+import com.physicaloid.lib.usb.driver.uart.ReadLisener;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -24,23 +33,151 @@ import java.net.URL;
 import java.net.URLEncoder;
 
 public class Check extends Activity {
-    Button btCek;
-    TextView tvResult,tvResultDouble,tvTulisanBesar;
+    Button btCek, btOpen;
+    TextView tvResult,tvResponse,tvTulisanBesar;
     String firstOcc;
+    ImageView imagebackpin;
+    boolean canexit = false;
+    Spinner spBauds;
+    CheckBox cbAutoscrolls;
+    Physicaloid mPhysicaloid; // initialising library
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check);
         btCek=(Button)findViewById(R.id.Check_Submit);
         tvResult=(TextView)findViewById(R.id.Check_key_tv);
-        tvResultDouble=(TextView)findViewById(R.id.Check_increment_tv);
-        tvTulisanBesar=(TextView)findViewById(R.id.Check_TulisanBesar);
-    }
+        tvResponse=(TextView)findViewById(R.id.Check_Response);
+        imagebackpin=(ImageView)findViewById(R.id.Check_image);
+     //   tvTulisanBesar=(TextView)findViewById(R.id.Check_TulisanBesar);
+
+        btOpen =(Button)findViewById(R.id.Check_Connect);
+        spBauds = (Spinner) findViewById(R.id.Check_spinnerz);
+        cbAutoscrolls = (CheckBox)findViewById(R.id.Check_autoscrollz);
+        //-----------------------------------------------
+        setEnabledUi(false);
+
+        ////////////////////////////////
+        mPhysicaloid = new Physicaloid(this);
+
+        btOpen.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+
+                String baudtext = spBauds.getSelectedItem().toString();
+                switch (baudtext) {
+                    case "300 baud":
+                        mPhysicaloid.setBaudrate(300);
+                        break;
+                    case "1200 baud":
+                        mPhysicaloid.setBaudrate(1200);
+                        break;
+                    case "2400 baud":
+                        mPhysicaloid.setBaudrate(2400);
+                        break;
+                    case "4800 baud":
+                        mPhysicaloid.setBaudrate(4800);
+                        break;
+                    case "9600 baud":
+                        mPhysicaloid.setBaudrate(9600);
+                        break;
+                    case "19200 baud":
+                        mPhysicaloid.setBaudrate(19200);
+                        break;
+                    case "38400 baud":
+                        mPhysicaloid.setBaudrate(38400);
+                        break;
+                    case "576600 baud":
+                        mPhysicaloid.setBaudrate(576600);
+                        break;
+                    case "744880 baud":
+                        mPhysicaloid.setBaudrate(744880);
+                        break;
+                    case "115200 baud":
+                        mPhysicaloid.setBaudrate(115200);
+                        break;
+                    case "230400 baud":
+                        mPhysicaloid.setBaudrate(230400);
+                        break;
+                    case "250000 baud":
+                        mPhysicaloid.setBaudrate(250000);
+                        break;
+                    default:
+                        mPhysicaloid.setBaudrate(9600);
+                }
+
+                if(mPhysicaloid.open()) {
+
+                    setEnabledUi(true);
+                    String kirim = "7"; //Mengirim case 7 ke while loop
+                    if(kirim.length()>0) {
+                        byte[] buf = kirim.getBytes();
+                        mPhysicaloid.write(buf, buf.length);
+                    }
+
+
+                   /* if(mPhysicaloid.open()) { // Pesan ini diberikan wallet
+
+                    }*/
+                   /* byte[] bufs = new byte[256];
+                    mPhysicaloid.read(bufs, bufs.length);
+                    String str = new String(bufs);
+                    tvRegResponse.setText(null);
+                    tvRegResponse.setText(str); // ini pesannya contoh " privatekey yang akan didaftarkan" .
+                    pkNew=tvRegResponse.getText().toString();
+                    // mPhysicaloid.close();*/
+
+                    if(cbAutoscrolls.isChecked())
+                    {
+                        tvResponse.setMovementMethod(new ScrollingMovementMethod());
+                    }
+                    mPhysicaloid.addReadListener(new ReadLisener() {
+                        @Override
+                        public void onRead(int size) {
+                            byte[] buf = new byte[size];
+                            mPhysicaloid.read(buf, size);
+                            tvAppend(tvResponse, Html.fromHtml( new String(buf) ));
+                        }
+                    });
+
+                } else {
+                    Toast toast = Toast.makeText(getApplicationContext(),"Not Connect",Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+            }
+        });
+
+        imagebackpin.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                String kirim = "moemoe";
+                if(kirim.length()>0) {
+                    byte[] buf = kirim.getBytes();
+                    mPhysicaloid.write(buf, buf.length);}
+
+
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        canexit=true;
+                        mPhysicaloid.close();
+                        onBackPressed();
+                    }
+                }, 1500);
+
+            }
+        });
+    } //End Of Protected Void
 
 
 
-    public void CheckButton(View view) {
-        String user_name = "aiharakotoko"; // !!!!Query LAH DARI ARDUINO
+    public void CheckButton(View view) { //onClick Check
+        String user_name = tvResponse.getText().toString(); // !!!!Query LAH DARI ARDUINO
         String method = "balance";
         new MyTask(this).execute(method,user_name); //Jalankan AsyncTaskPertama
         // Harus ada Delay dengan handler , kalau tidak , belum keupdate nya.
@@ -140,4 +277,44 @@ public class Check extends Activity {
             Check.this.onBackgroundTaskDataObtained(result);
         }
     } // Akhir dari AsyncTask
+
+    public void onBackPressed(){
+        if (canexit) {
+            super.onBackPressed();
+
+        }
+    }
+
+    private void setEnabledUi(boolean on) {
+        if(on) {
+            btOpen.setEnabled(false);
+            btCek.setEnabled(true);
+            spBauds.setEnabled(false);
+            cbAutoscrolls.setEnabled(false);
+
+        } else {
+            btOpen.setEnabled(true);
+            btCek.setEnabled(false);
+            spBauds.setEnabled(true);
+            cbAutoscrolls.setEnabled(true);
+
+        }
+    }
+
+
+
+
+    Handler mHandler = new Handler();
+    private void tvAppend(TextView tv, CharSequence text) {
+        final TextView ftv = tv;
+        final CharSequence ftext = text;
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                ftv.append(ftext);
+            }
+        });
+    }
+
+
 }

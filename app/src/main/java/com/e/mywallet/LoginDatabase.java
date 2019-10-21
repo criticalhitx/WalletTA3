@@ -12,7 +12,7 @@ import org.w3c.dom.Text;
 public class LoginDatabase extends AppCompatActivity {
     EditText ET_NAME, ET_PASS;
     String login_name, login_pass;
-    Button btnReg;
+    Button btnReg, btnRecover;
     TextView txTestResponse;
 
     @Override
@@ -22,6 +22,7 @@ public class LoginDatabase extends AppCompatActivity {
         btnReg=(Button)findViewById(R.id.Login_Register);
         ET_NAME=(EditText)findViewById(R.id.Login_username);
         ET_PASS=(EditText)findViewById(R.id.Login_password);
+        btnRecover=(Button) findViewById(R.id.Login_Recover); // To go to recover menu
 
 
         btnReg.setOnClickListener(new View.OnClickListener()
@@ -29,6 +30,13 @@ public class LoginDatabase extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
+                startActivity(new Intent(LoginDatabase.this, Register.class));
+            }
+        });
+
+        btnRecover.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 startActivity(new Intent(LoginDatabase.this, Register.class));
             }
         });

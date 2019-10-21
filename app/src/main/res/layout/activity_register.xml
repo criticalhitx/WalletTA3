@@ -149,7 +149,6 @@
             android:visibility="invisible"/>
 
 
-
         <ScrollView
             android:id="@+id/SCROLLER_ID"
             android:layout_width="match_parent"

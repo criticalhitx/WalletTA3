@@ -19,21 +19,25 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 public class InsertPIN extends Activity{
-    Button btOpenz,  btnKeyz;
-    EditText nilaiPin;
-    TextView insertpin_response;
+    Button btOpenz,  btnKeyz, btNewPIN;
+    EditText nilaiPin, pinBaru;
+    TextView insertpin_response,tvCeksama,judul;
     Spinner spBauds;
     CheckBox cbAutoscrolls;
     ImageView imagebackPin;
     boolean canexit=false;
     Physicaloid mPhysicaloid; // initialising library
+    String stringResp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_insert_pin);
 
+        judul = (TextView)findViewById(R.id.InsertPIN_judul);
         imagebackPin = (ImageView) findViewById(R.id.imagebackPin);
         btOpenz  = (Button) findViewById(R.id.btOpenz);
         btnKeyz = (Button) findViewById(R.id.buttonkeyz);
@@ -43,6 +47,9 @@ public class InsertPIN extends Activity{
         cbAutoscrolls = (CheckBox)findViewById(R.id.autoscrollz);
         setEnabledUi(false);
         mPhysicaloid = new Physicaloid(this);
+        tvCeksama=(TextView)findViewById(R.id.insertpin_res2);
+        pinBaru=(EditText)findViewById(R.id.InsertPIN_pinbaru);
+        btNewPIN=(Button)findViewById(R.id.InsertPIN_btNewPIN);
 
         btOpenz.setOnClickListener(new View.OnClickListener()
         {
@@ -93,6 +100,8 @@ public class InsertPIN extends Activity{
 
                 if(mPhysicaloid.open()) {
                     setEnabledUi(true);
+                    btnKeyz.setVisibility(View.VISIBLE);
+                    btOpenz.setVisibility(View.GONE);
                     String kirim = getText(R.string.insert_pin).toString(); //Mengirim case 5 ke while loop, seharusnya gabung connect btOpens.
                     if(kirim.length()>0) {
                         byte[] buf = kirim.getBytes();
@@ -100,14 +109,14 @@ public class InsertPIN extends Activity{
                     }
 
 
-                    if(mPhysicaloid.open()) { // Pesan ini diberikan wallet
+                    /* // Pesan ini diberikan wallet
                         byte[] bufs = new byte[256];
                         mPhysicaloid.read(bufs, bufs.length);
                         String str = new String(bufs);
                         insertpin_response.setText(null);
                         insertpin_response.setText(str); // ini pesannya contoh " Wallet sudah siap" .
-                        // mPhysicaloid.close();
-                    }
+                        // mPhysicaloid.close();*/
+
 
                     setEnabledUi(true);
                     nilaiPin.setVisibility(View.VISIBLE); // Saat inilah baru bisa memasukkan key
@@ -138,6 +147,37 @@ public class InsertPIN extends Activity{
             public void onClick(View v)
             {
                 String kirim = nilaiPin.getText().toString(); //Mengirim case 4 ke while loop, seharusnya gabung connect btOpens.
+                if(kirim.length()>0) {
+                    byte[] buf = kirim.getBytes();
+                    mPhysicaloid.write(buf, buf.length);}
+
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        stringResp = insertpin_response.getText().toString();
+                        if (stringResp.equals("OK"))
+                        {
+                            Toast.makeText(InsertPIN.this,"PIN BENAR", Toast.LENGTH_LONG).show();
+                            insertpin_response.setVisibility(View.GONE);
+                            tvCeksama.setVisibility(View.GONE);
+                            nilaiPin.setVisibility(View.GONE);
+                            btOpenz.setVisibility(View.GONE);
+                            pinBaru.setVisibility(View.VISIBLE);
+                            btnKeyz.setVisibility(View.GONE);
+                            btNewPIN.setVisibility(View.VISIBLE);
+                        }
+                    }
+                }, 7000);
+            }
+        });
+
+        btNewPIN.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                String kirim = pinBaru.getText().toString(); //Mengirim case 4 ke while loop, seharusnya gabung connect btOpens.
                 if(kirim.length()>0) {
                     byte[] buf = kirim.getBytes();
                     mPhysicaloid.write(buf, buf.length);}

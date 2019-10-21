@@ -37,8 +37,7 @@ public class Register extends AppCompatActivity {
     TextView tv1,tv2,tv3,tv4,tv5,tvRegResponse;
     Spinner spBauds;
     CheckBox cbAutoscrolls;
-    String firstname,lastname,user_name,user_pass,email;
-    String pkNew; //pk untuk didaftarkan
+    String firstname,lastname,user_name,user_pass,email,createdPKey;
     Button btnReg,btOpen;
     Physicaloid mPhysicaloid; // initialising library
     boolean canexit=false;
@@ -68,7 +67,10 @@ public class Register extends AppCompatActivity {
         spBauds = (Spinner) findViewById(R.id.Register_spinnerz);
         cbAutoscrolls = (CheckBox)findViewById(R.id.Register_autoscrollz);
         tvRegResponse = (TextView)findViewById(R.id.registerResponse);
+        /// Set UI Awal ini --------
         setEnabledUi(false);
+        btnReg.setEnabled(false);
+        /// -----------------------
 
         mPhysicaloid = new Physicaloid(this);
         Toast.makeText(this, "by Pressing Connect Button, it will erase the data inside wallet", Toast.LENGTH_LONG).show();
@@ -78,6 +80,7 @@ public class Register extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
+
                 String baudtext = spBauds.getSelectedItem().toString();
                 switch (baudtext) {
                     case "300 baud":
@@ -121,7 +124,9 @@ public class Register extends AppCompatActivity {
                 }
 
                 if(mPhysicaloid.open()) {
+
                     setEnabledUi(true);
+                    btnReg.setEnabled(true);
                     String kirim = "3"; //Mengirim case 3 ke while loop
                     if(kirim.length()>0) {
                         byte[] buf = kirim.getBytes();
@@ -132,13 +137,13 @@ public class Register extends AppCompatActivity {
                    /* if(mPhysicaloid.open()) { // Pesan ini diberikan wallet
 
                     }*/
-                    byte[] bufs = new byte[256];
+                   /* byte[] bufs = new byte[256];
                     mPhysicaloid.read(bufs, bufs.length);
                     String str = new String(bufs);
                     tvRegResponse.setText(null);
                     tvRegResponse.setText(str); // ini pesannya contoh " privatekey yang akan didaftarkan" .
                     pkNew=tvRegResponse.getText().toString();
-                    // mPhysicaloid.close();
+                    // mPhysicaloid.close();*/
 
                     if(cbAutoscrolls.isChecked())
                     {
@@ -159,6 +164,7 @@ public class Register extends AppCompatActivity {
                 }
             }
         });
+
 
         imagebackPin.setOnClickListener(new View.OnClickListener()
         {
@@ -195,11 +201,17 @@ public class Register extends AppCompatActivity {
         user_name=etUsername.getText().toString();
         user_pass=etPassword.getText().toString();
         email=etEmail.getText().toString();
+        createdPKey = tvRegResponse.getText().toString();
+        // ----- UPDATE USERNAME KE WALLET SAAT REGISTRASI ----
+        if(user_name.length()>0) {
+            byte[] buf = user_name.getBytes();
+            mPhysicaloid.write(buf, buf.length);
+        }
+        // ---------------------------------------------------
 
         String method ="register";
         BackgroundTask backgroundTask =new BackgroundTask(this);
-        backgroundTask.execute(method,firstname,user_name,user_pass,email,lastname);
-        finish();
+        backgroundTask.execute(method,firstname,user_name,user_pass,email,lastname,createdPKey);
     }
 
 
