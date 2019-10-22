@@ -36,11 +36,9 @@ import java.net.URLEncoder;
 public class Send extends Activity {
     EditText stealthaddress, amount;
     String user_name; // Parameter ini DIKIRIMKAN OLEH
-    TextView tvTest;
+    TextView tvTest; // response
 
     Button btSend, btOpen;
-    TextView tvResult,tvTulisanBesar;
-    String firstOcc;
     ImageView imagebackpin;
     boolean canexit = false;
     Spinner spBauds;

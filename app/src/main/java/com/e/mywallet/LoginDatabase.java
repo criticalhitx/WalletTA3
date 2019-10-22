@@ -37,7 +37,7 @@ public class LoginDatabase extends AppCompatActivity {
         btnRecover.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(LoginDatabase.this, Register.class));
+                startActivity(new Intent(LoginDatabase.this, RecoverSK.class));
             }
         });
     }
