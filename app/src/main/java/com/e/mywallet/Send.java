@@ -172,7 +172,7 @@ public class Send extends Activity {
         String stealth_address = stealthaddress.getText().toString();
         String transfer = amount.getText().toString();
 
-        new Send.MyTask(this).execute(method,user_name,stealth_address,transfer);
+        new Send.MyTask(this).execute(method,user_name,stealth_address,transfer); // Execute Asynctask
     }
 
 
