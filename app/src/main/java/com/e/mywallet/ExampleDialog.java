@@ -1,8 +1,4 @@
 package com.e.mywallet;
-
-
-import com.physicaloid.lib.Physicaloid;
-import com.physicaloid.lib.usb.driver.uart.ReadLisener;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -18,21 +14,15 @@ public class ExampleDialog extends AppCompatDialogFragment {
     private EditText editTextUsername;
     private EditText editTextPassword;
     private ExampleDialogListener listener;
-    Physicaloid mPhysicaloid; // initialising library
-    //mPhysicaloid = new Physicaloid(this);
-
-
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.dialog, null);
-
+        View view = inflater.inflate(R.layout.pin_dialog, null);
 
         builder.setView(view)
-                .setTitle("Login")
                 .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -42,16 +32,14 @@ public class ExampleDialog extends AppCompatDialogFragment {
                 .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        String password = editTextPassword.getText().toString();
-                        if(password.length()>0) {
-                            byte[] buf = password.getBytes();
-                            mPhysicaloid.write(buf, buf.length);
-                        }
+                        String username = editTextUsername.getText().toString();
+                       // String password = editTextPassword.getText().toString();
+                        listener.applyTexts(username, "Yeah");
                     }
                 });
 
-       // editTextUsername = view.findViewById(R.id.edit_username);
-        editTextPassword = view.findViewById(R.id.edit_password);
+        editTextUsername = view.findViewById(R.id.edit_username);
+        //editTextPassword = view.findViewById(R.id.edit_password);
 
         return builder.create();
     }

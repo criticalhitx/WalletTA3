@@ -19,6 +19,7 @@
         android:textColor="#ffffff"/>
 
     <ImageView
+        android:id="@+id/Receive_imagebackPin"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -36,6 +37,14 @@
         android:layout_margin="20dp"
         android:gravity="center_horizontal"
         />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/Receive_tvUsername"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/Receive_tvStealth"/>
 
         <Button
             android:id="@+id/btOpen"
@@ -44,7 +53,6 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:layout_above="@id/btWrite"
             android:onClick="onClickOpen"
             android:text="Connect" />
 

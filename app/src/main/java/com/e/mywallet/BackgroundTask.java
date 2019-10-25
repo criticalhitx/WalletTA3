@@ -40,6 +40,7 @@ public class BackgroundTask extends AsyncTask<String,Void,String>{
     protected String doInBackground(String... params) {
         String reg_url ="http://3.13.196.24/TA/register.php";
         String login_url ="http://3.13.196.24/TA/login.php";
+        String receive_url ="http://3.13.196.24/TA/receive.php";
         String method =params[0];
         if(method.equals("register"))
         {
@@ -117,6 +118,45 @@ public class BackgroundTask extends AsyncTask<String,Void,String>{
                 e.printStackTrace();
             }
         }
+        else if(method.equals("receive"))
+        {
+            String user_name = params[1];
+            String stealth_key = params[2];
+            try {
+                URL url = new URL(receive_url);
+                HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream,"UTF-8"));
+                String data = URLEncoder.encode("user_name","UTF-8")+"="+URLEncoder.encode(user_name,"UTF-8")+"&"+
+                        URLEncoder.encode("stealth_key","UTF-8")+"="+URLEncoder.encode(stealth_key,"UTF-8");
+                bufferedWriter.write(data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                outputStream.close();
+                /// This is to get response from Server
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream,"iso-8859-1"));
+                String response = "";
+                String line = "";
+                while((line = bufferedReader.readLine())!=null)
+                {
+                    response+= line;
+                }
+                bufferedReader.close();
+                inputStream.close();
+                httpURLConnection.disconnect();
+                return response;
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
         return null;
     }
 
@@ -143,6 +183,10 @@ public class BackgroundTask extends AsyncTask<String,Void,String>{
             Intent I2= new Intent(ctx, Menu.class);
             I2.setFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK); // | Intent.FLAG_ACTIVITY_NEW_TASK);
             ctx.startActivity(I2);
+        }
+       else
+        {
+            Toast.makeText(ctx, result, Toast.LENGTH_LONG).show();
         }
     }
 
