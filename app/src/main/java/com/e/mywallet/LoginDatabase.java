@@ -175,6 +175,16 @@ public class LoginDatabase extends AppCompatActivity {
              byte[] buf = kirim.getBytes();
              mPhysicaloid.write(buf, buf.length);
          }
+
+         Handler handler = new Handler();
+         handler.postDelayed(new Runnable() {
+             @Override
+             public void run() {
+                 mPhysicaloid.close();
+                 mPhysicaloid.clearReadListener();
+             }
+         }, 3000);
+
          /// --------------------------------------
      }
      else
@@ -204,6 +214,7 @@ public class LoginDatabase extends AppCompatActivity {
 
         }
     }
+
 
 
 

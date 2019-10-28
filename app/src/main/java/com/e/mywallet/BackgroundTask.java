@@ -3,6 +3,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -180,9 +181,16 @@ public class BackgroundTask extends AsyncTask<String,Void,String>{
        else if(result.equals("Login Success....Welcome!"))
         {
             //// This is to Start New Intent from Backgroujnd
-            Intent I2= new Intent(ctx, Menu.class);
-            I2.setFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK); // | Intent.FLAG_ACTIVITY_NEW_TASK);
-            ctx.startActivity(I2);
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent I2= new Intent(ctx, Menu.class);
+                    I2.setFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK); // | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    ctx.startActivity(I2);
+                }
+            }, 3000);
+
         }
        else
         {
