@@ -1,11 +1,21 @@
-package com.e.mywallet;
 
+//How Shindeiru Toki Mode Work!!!----------------------------------------
+//1. Send 219 to wallet
+//2. wallet send username to insertkey_response variable on Android.
+//then wallet is waiting for OK confirmation
+//3. Android send username and insertkey_response parameter to server for checking.
+//If true, return OK
+//4. When wallet get OK, it rewrite its secret key
+//------------------------------------------------------------------------
+package com.e.mywallet;
 import com.physicaloid.lib.Physicaloid;
 import com.physicaloid.lib.usb.driver.uart.ReadLisener;
 //import android.support.v7.app.AppCompatActivity;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.media.Image;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Html;
@@ -19,10 +29,22 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
+
 public class InsertKey extends Activity{
-    Button btOpens,  btnKeys;
+    Button btOpens,  btnKeys ,btTshoot;
     EditText nilaikey;
-    TextView insertkey_response;
+    TextView insertkey_response,insertkey_response2;
     Spinner spBauds;
     CheckBox cbAutoscrolls;
     ImageView imageback;
@@ -39,10 +61,12 @@ public class InsertKey extends Activity{
         btnKeys = (Button) findViewById(R.id.buttonkeys);
         nilaikey = (EditText) findViewById(R.id.nilaikey);
         insertkey_response  = (TextView) findViewById(R.id.insertkey_response);
+        insertkey_response2  = (TextView) findViewById(R.id.insertkey_response2);
         spBauds = (Spinner) findViewById(R.id.spinners);
         cbAutoscrolls = (CheckBox)findViewById(R.id.autoscrolls);
         setEnabledUi(false);
         mPhysicaloid = new Physicaloid(this);
+        btTshoot = (Button)findViewById(R.id.InsertKey_btTshoot);
 
         btOpens.setOnClickListener(new View.OnClickListener()
         {
@@ -109,10 +133,19 @@ public class InsertKey extends Activity{
                         insertkey_response.setText(str); // ini pesannya contoh " Wallet sudah siap" .
                        // mPhysicaloid.close();
                     }
-
                     setEnabledUi(true);
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            btTshoot.setVisibility(View.VISIBLE);
+                        }
+                    }, 2000);
+
                     nilaikey.setVisibility(View.VISIBLE);
                     insertkey_response.setText(null);// Saat inilah baru bisa memasukkan key
+
+                    // We expect wallet to directly send username parameter after Android send 219
                     if(cbAutoscrolls.isChecked())
                     {
                         insertkey_response.setMovementMethod(new ScrollingMovementMethod());
@@ -133,6 +166,7 @@ public class InsertKey extends Activity{
             }
         });
 
+        // Below btnKeys is not used anymore
         btnKeys.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -161,6 +195,105 @@ public class InsertKey extends Activity{
             }
         });
     }
+    private void onBackgroundTaskDataObtained(String result) {
+        insertkey_response2.setText(result); // Nanti ini kirim string OK ke WALLET // IMPORTANT CHANGE!!!!!!!!!!!
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                String hasil = insertkey_response2.getText().toString(); // Server Message
+                if(hasil.equals("OK")) {
+                    String kirim = nilaikey.getText().toString(); // kirim inserted pkey bila server sudah OK
+                    if (kirim.length() > 0) {
+                        byte[] buf = kirim.getBytes();
+                        mPhysicaloid.write(buf, buf.length);
+                    }
+                }
+            }
+        }, 2000);
+
+    }
+
+    // Tshoot with server
+    public void onClickTshoot(View view) {
+        String user_name = insertkey_response.getText().toString();
+        String secret_key = nilaikey.getText().toString();
+        String method = "shindeirutoki";
+        new InsertKey.MyTask(this).execute(method,user_name, secret_key); //Jalankan AsyncTaskPertama
+    }
+
+    private class MyTask extends AsyncTask<String,Void,String>
+    {
+        Context ctx;
+        MyTask(Context ctx)
+        {
+            this.ctx=ctx;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            String balance_url ="http://3.13.196.24/TA/shindeiru.php";
+            String method = params[0];
+            if(method.equals("shindeirutoki"))
+            {
+                String user_name= params[1];
+                String secret_key = params[2];
+
+                try {
+                    URL url =new URL(balance_url);
+                    HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+                    httpURLConnection.setRequestMethod("POST");
+                    httpURLConnection.setDoOutput(true);
+                    httpURLConnection.setDoInput(true);
+                    OutputStream outputStream = httpURLConnection.getOutputStream();
+                    BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream,"UTF-8"));
+                    String data = URLEncoder.encode("user_name","UTF-8")+"="+URLEncoder.encode(user_name,"UTF-8")+"&"+
+                            URLEncoder.encode("secret_key","UTF-8")+"="+URLEncoder.encode(secret_key,"UTF-8");
+                    bufferedWriter.write(data);
+                    bufferedWriter.flush();
+                    bufferedWriter.close();
+                    outputStream.close();
+                    /// This is to get response from Server
+                    InputStream inputStream = httpURLConnection.getInputStream();
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream,"iso-8859-1"));
+                    String response = "";
+                    String line = "";
+                    while((line = bufferedReader.readLine())!=null)
+                    {
+                        response+= line;
+                    }
+                    bufferedReader.close();
+                    inputStream.close();
+                    httpURLConnection.disconnect();
+                    return response;
+
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            super.onProgressUpdate(values);
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            //float f=Float.parseFloat(result);
+            //String fromfloat=""+f;
+            Toast.makeText(ctx,result, Toast.LENGTH_SHORT).show();
+            InsertKey.this.onBackgroundTaskDataObtained(result);
+        }
+    } // Akhir dari AsyncTask
 
 
 
@@ -176,12 +309,13 @@ public class InsertKey extends Activity{
             btOpens.setEnabled(false);
             spBauds.setEnabled(false);
             cbAutoscrolls.setEnabled(false);
-            insertkey_response.setEnabled(true);
+            nilaikey.setEnabled(true);
+
         } else {
             btOpens.setEnabled(true);
             spBauds.setEnabled(true);
             cbAutoscrolls.setEnabled(true);
-            insertkey_response.setEnabled(false);
+            nilaikey.setEnabled(false);
         }
     }
 

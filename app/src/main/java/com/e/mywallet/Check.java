@@ -208,7 +208,6 @@ public class Check extends Activity {
     }
     private class MyTask extends AsyncTask<String,Void,String>
     {
-        private View rootView;
         Context ctx;
         MyTask(Context ctx)
         {

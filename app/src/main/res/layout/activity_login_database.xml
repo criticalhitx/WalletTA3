@@ -6,7 +6,7 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:orientation="vertical"
-    android:background="#112F91">
+    android:background="@drawable/index">
 
 
     <TextView
@@ -20,28 +20,24 @@
         android:textSize="30dp"
         android:textColor="#f4f4f4"/>
 
+
     <ImageView
+        android:id="@+id/Login_imageCheatMagician"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:src="@drawable/logo_key"
         android:layout_marginRight="50dp"
         android:layout_marginLeft="50dp"
-        android:layout_marginBottom="10dp"/>
+        android:layout_marginBottom="10dp"
+        />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/Login_testResponse"/>
+        android:id="@+id/Login_testResponse"
+        android:background="#FFFFFF"/>
 
-    <Button
-        android:id="@+id/Login_btOpens"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="20dp"
-        android:text="Connect" />
 
     <EditText
         android:id="@+id/Login_username"
@@ -53,7 +49,8 @@
         android:background="#ffffff"
         android:hint="Insert Username"
         android:padding="5dp"
-        android:inputType="text" />
+        android:inputType="text"
+        android:visibility="gone"/>
 
     <EditText
         android:id="@+id/Login_password"
@@ -64,17 +61,30 @@
         android:background="#ffffff"
         android:hint="Insert Password"
         android:padding="5dp"
-        android:inputType="text" />
+        android:inputType="text"
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/Login_btOpens"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/custom_button"
+        android:text="Connect for Login" />
 
     <Button
         android:id="@+id/Login_btLogin"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="5dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="10dp"
         android:text="Login"
-        android:onClick="userLogin"/>
+        android:background="@drawable/custom_button"
+        android:onClick="userLogin"
+        android:visibility="gone"/>
 
     <Button
         android:id="@+id/Login_Register"
@@ -83,7 +93,8 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="10dp"
-        android:text="Register" />
+        android:text="Register"
+        android:background="@drawable/custom_button"/>
 
     <Button
         android:id="@+id/Login_Recover"
@@ -91,36 +102,35 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="10dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/custom_button"
         android:text="Recover with private Key" />
 
+    <ScrollView
+        android:id="@+id/SCROLLER_ID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
+        android:scrollbars="vertical"
+        android:visibility="gone">>
+    </ScrollView>
 
-    <!--
-            <ScrollView
-                android:id="@+id/SCROLLER_ID"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fillViewport="true"
-                android:scrollbars="vertical"
-                android:visibility="gone">>
-            </ScrollView>
+    <CheckBox
+        android:id="@+id/Login_autoscrollz"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Autoscroll"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="45dp"
+        android:visibility="gone"/>
 
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Autoscroll"
-                android:id="@+id/autoscrolls"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="45dp"
-                android:visibility="gone"/>
-
-            <Spinner
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/spinners"
-                android:entries="@array/baud_arrays"
-                android:prompt="@string/baud_prompt"
-                android:layout_alignBottom="@+id/autoscroll"
-                android:layout_toEndOf="@+id/autoscroll"
-                android:visibility="gone"/>
-    -->
+    <Spinner
+        android:id="@+id/Login_spinnerz"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:entries="@array/baud_arrays"
+        android:prompt="@string/baud_prompt"
+        android:layout_alignBottom="@+id/autoscrollz"
+        android:layout_toEndOf="@+id/autoscrollz"
+        android:visibility="gone"/>
 </LinearLayout>

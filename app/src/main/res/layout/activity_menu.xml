@@ -6,7 +6,7 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:orientation="vertical"
-    android:background="#112F91">
+    android:background="@drawable/index">
 
 
     <TextView
@@ -32,7 +32,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:text="Send"
-        android:layout_marginBottom="10dp"/>
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/custom_button"/>
 
     <Button
         android:id="@+id/buttonreceive"
@@ -40,7 +41,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="10dp"
-        android:text="Receive" />
+        android:text="Receive"
+        android:background="@drawable/custom_button"/>
 
     <Button
         android:id="@+id/buttoncheck"
@@ -48,6 +50,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="10dp"
+        android:background="@drawable/custom_button"
         android:text="Check Balance" />
 
     <Button
@@ -55,21 +58,26 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="5dp"
-        android:text="View Key" />
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/custom_button"
+        android:text="View Key"
+        android:visibility="gone"/>
     <Button
         android:id="@+id/buttonInsertKey"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="10dp"
         android:text="Shindeiru Toki"
-        android:layout_marginBottom="5dp"/>
+        android:background="@drawable/custom_button"
+        />
     <Button
         android:id="@+id/buttonInsertPin"
         android:layout_width="300dp"
+        android:layout_marginBottom="10dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="Verify PIN"
-        android:layout_marginBottom="10dp"/>
+        android:background="@drawable/custom_button"
+        android:text="Verify PIN" />
 
 </LinearLayout>

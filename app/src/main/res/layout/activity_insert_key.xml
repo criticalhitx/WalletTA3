@@ -5,7 +5,7 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:orientation="vertical"
-    android:background="@color/colorPrimary">
+    android:background="@drawable/index">
 
     <TextView
         android:layout_width="match_parent"
@@ -37,22 +37,41 @@
         android:background="#ffffff"
         android:hint="Input your key"
         android:padding="5dp"
-        android:inputType="text"
-        android:visibility="invisible"/>
+        android:inputType="text" />
+
     <TextView
         android:id="@+id/insertkey_response"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"/>
+    <TextView
+        android:id="@+id/insertkey_response2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"/>
+
     <Button
-        android:id="@+id/btOpens"
+    android:id="@+id/btOpens"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp"
+    android:layout_above="@id/btWrite"
+    android:onClick="onClickOpen"
+    android:text="Connect" />
+
+    <Button
+        android:id="@+id/InsertKey_btTshoot"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:layout_above="@id/btWrite"
-        android:onClick="onClickOpen"
-        android:text="Connect" />
+        android:onClick="onClickTshoot"
+        android:text="Tshoot"
+        android:visibility="gone"/>
 
     <Button
         android:id="@+id/buttonkeys"
@@ -60,7 +79,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_margin="6dp"
-        android:text="Send" />
+        android:text="Send"
+        android:visibility="gone"/>
 
     <ScrollView
         android:id="@+id/SCROLLER_ID"
