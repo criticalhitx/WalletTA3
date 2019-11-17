@@ -193,7 +193,7 @@ public class Send extends Activity {
 
         @Override
         protected String doInBackground(String... params) {
-            String send_url ="http://3.13.196.24/TA/send.php";
+            String send_url ="http://3.135.54.193/TA/send.php";
             String method = params[0];
             if(method.equals("send"))
             {

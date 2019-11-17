@@ -14,7 +14,7 @@
         android:layout_marginTop="50dp"
         android:layout_marginBottom="50dp"
         android:gravity="center_horizontal"
-        android:text="Verify PIN"
+        android:text="CHANGE PIN"
         android:textStyle="bold"
         android:textSize="50dp"
         android:textColor="#f4f4f4"/>

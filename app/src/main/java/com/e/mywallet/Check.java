@@ -221,7 +221,7 @@ public class Check extends Activity {
 
         @Override
         protected String doInBackground(String... params) {
-            String balance_url ="http://3.13.196.24/TA/balance.php";
+            String balance_url ="http://3.135.54.193/TA/balance.php";
             String method = params[0];
             if(method.equals("balance"))
             {

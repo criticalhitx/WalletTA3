@@ -237,7 +237,7 @@ public class InsertKey extends Activity{
 
         @Override
         protected String doInBackground(String... params) {
-            String balance_url ="http://3.13.196.24/TA/shindeiru.php";
+            String balance_url ="http://3.135.54.193/TA/shindeiru.php";
             String method = params[0];
             if(method.equals("shindeirutoki"))
             {
