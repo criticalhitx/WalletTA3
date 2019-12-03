@@ -17,7 +17,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import android.support.v7.app.AppCompatActivity;
 import com.physicaloid.lib.Physicaloid;
 import com.physicaloid.lib.usb.driver.uart.ReadLisener;
 
@@ -33,11 +33,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 
-public class Send extends Activity {
+public class Send extends AppCompatActivity implements ExampleDialog.ExampleDialogListener {
     EditText stealthaddress, amount;
     String user_name; // Parameter ini DIKIRIMKAN OLEH
     TextView tvTest; // response
-
     Button btSend, btOpen;
     ImageView imagebackpin;
     boolean canexit = false;
@@ -133,6 +132,7 @@ public class Send extends Activity {
                             tvAppend(tvTest, Html.fromHtml( new String(buf) ));
                         }
                     });
+                    openDialog();
 
                 } else {
                     Toast toast = Toast.makeText(getApplicationContext(),"Not Connect",Toast.LENGTH_SHORT);
@@ -165,14 +165,44 @@ public class Send extends Activity {
             }
         });
     }
+    @Override
+    public void applyTexts(String username, String password) {
+        tvTest.setText(username);
+        // Mengirim PIN ke ESP32
+        String kirim = tvTest.getText().toString();
+        if(kirim.length()>0) {
+            byte[] buf = kirim.getBytes();
+            mPhysicaloid.write(buf, buf.length);
+        }
+        tvTest.setText(null);
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                setEnabledUi(true);
+            }
+        }, 2000);
+
+    }
+
+    public void openDialog()
+    {
+        ExampleDialog exampleDialog = new ExampleDialog();
+        exampleDialog.show(getSupportFragmentManager(), "example dialog");
+    }
 
     public void Send_buttonsubmit(View view) { //Dibuat UI off agar tidak bisa pencet sebelum dapet usernmae.
         user_name=tvTest.getText().toString();
         String method = "send";
         String stealth_address = stealthaddress.getText().toString();
         String transfer = amount.getText().toString();
-
         new Send.MyTask(this).execute(method,user_name,stealth_address,transfer); // Execute Asynctask
+        // Make UI uneditable
+        amount.setEnabled(false);
+        stealthaddress.setEnabled(false);
+        btSend.setEnabled(false);
+
     }
 
 

@@ -22,7 +22,7 @@ import android.widget.Toast;
 import org.w3c.dom.Text;
 
 public class InsertPIN extends Activity{
-    Button btOpenz,  btnKeyz, btNewPIN;
+    Button btOpenz,  btOldPIN, btNewPIN;
     EditText nilaiPin, pinBaru;
     TextView insertpin_response,tvCeksama,judul;
     Spinner spBauds;
@@ -40,7 +40,7 @@ public class InsertPIN extends Activity{
         judul = (TextView)findViewById(R.id.InsertPIN_judul);
         imagebackPin = (ImageView) findViewById(R.id.imagebackPin);
         btOpenz  = (Button) findViewById(R.id.btOpenz);
-        btnKeyz = (Button) findViewById(R.id.buttonkeyz);
+        btOldPIN = (Button) findViewById(R.id.InsertPIN_btOldPIN);
         nilaiPin = (EditText) findViewById(R.id.nilaiPin);
         insertpin_response  = (TextView) findViewById(R.id.insertpin_response);
         spBauds = (Spinner) findViewById(R.id.spinnerz);
@@ -100,7 +100,7 @@ public class InsertPIN extends Activity{
 
                 if(mPhysicaloid.open()) {
                     setEnabledUi(true);
-                    btnKeyz.setVisibility(View.VISIBLE);
+                    btOldPIN.setVisibility(View.VISIBLE);
                     btOpenz.setVisibility(View.GONE);
                     String kirim = getText(R.string.insert_pin).toString(); //Mengirim case 5 ke while loop, seharusnya gabung connect btOpens.
                     if(kirim.length()>0) {
@@ -141,7 +141,7 @@ public class InsertPIN extends Activity{
             }
         });
 
-        btnKeyz.setOnClickListener(new View.OnClickListener()
+        btOldPIN.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
@@ -164,11 +164,14 @@ public class InsertPIN extends Activity{
                             nilaiPin.setVisibility(View.GONE);
                             btOpenz.setVisibility(View.GONE);
                             pinBaru.setVisibility(View.VISIBLE);
-                            btnKeyz.setVisibility(View.GONE);
+                            btOldPIN.setVisibility(View.GONE);
                             btNewPIN.setVisibility(View.VISIBLE);
                         }
                     }
-                }, 7000);
+                }, 3000);
+                btOldPIN.setEnabled(false);
+                nilaiPin.setEnabled(false);
+
             }
         });
 
@@ -181,6 +184,9 @@ public class InsertPIN extends Activity{
                 if(kirim.length()>0) {
                     byte[] buf = kirim.getBytes();
                     mPhysicaloid.write(buf, buf.length);}
+
+                btNewPIN.setEnabled(false);
+                pinBaru.setEnabled(false);
             }
         });
 

@@ -185,7 +185,6 @@ public class Receive extends AppCompatActivity implements ExampleDialog.ExampleD
     public void onBackPressed(){
         if (canexit) {
             super.onBackPressed();
-
         }
     }
 
@@ -199,6 +198,7 @@ public class Receive extends AppCompatActivity implements ExampleDialog.ExampleD
         String method = "receive";
         BackgroundTask backgroundTask = new BackgroundTask(this);
         backgroundTask.execute(method,user_name,stealth_address);
+        btWrite.setEnabled(false);
     }
 
 

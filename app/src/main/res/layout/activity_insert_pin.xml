@@ -74,7 +74,7 @@
         android:text="Connect" />
 
     <Button
-        android:id="@+id/buttonkeyz"
+        android:id="@+id/InsertPIN_btOldPIN"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
@@ -32,7 +33,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 
-public class Check extends Activity {
+public class Check extends AppCompatActivity implements ExampleDialog.ExampleDialogListener {
     Button btCek, btOpen;
     TextView tvResult,tvResponse,tvTulisanBesar;
     String firstOcc;
@@ -142,12 +143,17 @@ public class Check extends Activity {
                         }
                     });
 
+                    openDialog();
+
                 } else {
                     Toast toast = Toast.makeText(getApplicationContext(),"Not Connect",Toast.LENGTH_SHORT);
                     toast.show();
                 }
+
             }
         });
+
+
 
         imagebackpin.setOnClickListener(new View.OnClickListener()
         {
@@ -173,6 +179,34 @@ public class Check extends Activity {
             }
         });
     } //End Of Protected Void
+
+
+    @Override
+    public void applyTexts(String username, String password) {
+        tvResponse.setText(username);
+        // Mengirim PIN ke ESP32
+        String kirim = tvResponse.getText().toString();
+        if(kirim.length()>0) {
+            byte[] buf = kirim.getBytes();
+            mPhysicaloid.write(buf, buf.length);
+        }
+        tvResponse.setText(null);
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                setEnabledUi(true);
+            }
+        }, 2000);
+
+    }
+
+    public void openDialog()
+    {
+        ExampleDialog exampleDialog = new ExampleDialog();
+        exampleDialog.show(getSupportFragmentManager(), "example dialog");
+    }
 
 
 

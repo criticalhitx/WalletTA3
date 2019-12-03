@@ -6,12 +6,14 @@ import android.content.Intent;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
 public class Menu extends AppCompatActivity {
     Button btnCek,btnSend, btnReceive, btnCheck,btnKey, btnInsertKey,btnInsertPin;
     TextView tampil;
+    ImageView imagebackpin;
 
 
     @Override
@@ -27,10 +29,16 @@ public class Menu extends AppCompatActivity {
         tampil = (TextView) findViewById(R.id.text_view_id);
         btnInsertKey = (Button) findViewById(R.id.buttonInsertKey);
         btnInsertPin = (Button) findViewById(R.id.buttonInsertPin);
+        imagebackpin =(ImageView)findViewById(R.id.Menu_image);
 
-
-
-
+        imagebackpin.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                finishAffinity();
+            }
+        });
 
         btnSend.setOnClickListener(new View.OnClickListener()
         {

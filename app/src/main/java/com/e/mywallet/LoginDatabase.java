@@ -30,7 +30,8 @@ public class LoginDatabase extends AppCompatActivity {
     Button btOpen;
     Spinner spBauds;
     CheckBox cbAutoscrolls;
-    Physicaloid mPhysicaloid; // initialising library
+    Physicaloid mPhysicaloid; // initialising
+    boolean canexit=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,7 +138,22 @@ public class LoginDatabase extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                startActivity(new Intent(LoginDatabase.this, Menu.class));
+                String kirim = "moemoe";
+                if(kirim.length()>0) {
+                    byte[] buf = kirim.getBytes();
+                    mPhysicaloid.write(buf, buf.length);}
+
+
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        canexit=true;
+                        mPhysicaloid.close();
+                        onBackPressed();
+                    }
+                }, 1500);
+
             }
         });
         // --------------------------------------------------- //
@@ -168,13 +184,15 @@ public class LoginDatabase extends AppCompatActivity {
          String method = "login";
          BackgroundTask backgroundTask = new BackgroundTask(this);
          backgroundTask.execute(method,login_name,login_pass);
-
          ///--------------- kirim moe ----------
-         String kirim = "moemoe"; //Mengirim case 4 ke while loop [ Mode Login ]
+         String kirim = "true"; //Mengirim case 4 ke while loop [ Mode Login ]
          if(kirim.length()>0) {
              byte[] buf = kirim.getBytes();
              mPhysicaloid.write(buf, buf.length);
          }
+         ET_NAME.setEnabled(false);
+         ET_PASS.setEnabled(false);
+         btnLogin.setEnabled(false);
 
          Handler handler = new Handler();
          handler.postDelayed(new Runnable() {
@@ -183,7 +201,7 @@ public class LoginDatabase extends AppCompatActivity {
                  mPhysicaloid.close();
                  mPhysicaloid.clearReadListener();
              }
-         }, 3000);
+         }, 1500);
 
          /// --------------------------------------
      }
@@ -191,7 +209,6 @@ public class LoginDatabase extends AppCompatActivity {
      {
          Toast.makeText(this,"Bukan Wallet Anda", Toast.LENGTH_SHORT).show();
      }
-
     }
 
     private void setEnabledUi(boolean on) {

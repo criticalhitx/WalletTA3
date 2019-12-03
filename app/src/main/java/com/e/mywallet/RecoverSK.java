@@ -166,7 +166,8 @@ public class RecoverSK extends AppCompatActivity {
                             mPhysicaloid.write(buf, buf.length);
                         }
                     }
-                }, 3000);
+                }, 2000);
+                btPutWallet.setEnabled(false);
             }
         });
 
@@ -268,7 +269,7 @@ public class RecoverSK extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... params) {
-            String send_url ="http://3.13.196.24/TA/recoversk.php";
+            String send_url ="http://3.135.54.193/TA/recoversk.php";
             String method = params[0];
             if(method.equals("recoversk"))
             {
