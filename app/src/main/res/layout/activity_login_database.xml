@@ -15,9 +15,9 @@
         android:layout_marginTop="50dp"
         android:layout_marginBottom="50dp"
         android:gravity="center_horizontal"
-        android:text="LOGIN"
+        android:text="S-KEY"
         android:textStyle="bold"
-        android:textSize="30dp"
+        android:textSize="40dp"
         android:textColor="#f4f4f4"/>
 
 
@@ -61,7 +61,7 @@
         android:background="#ffffff"
         android:hint="Insert Password"
         android:padding="5dp"
-        android:inputType="text"
+        android:inputType="textPassword"
         android:visibility="gone"/>
 
     <Button

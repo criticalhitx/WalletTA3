@@ -26,7 +26,7 @@ import android.widget.Toast;
 public class Receive extends AppCompatActivity implements ExampleDialog.ExampleDialogListener {
     Button btOpen,  btWrite;
     EditText etWrite;
-    TextView tvRead,tvStealth,tvUsername;
+    TextView tvRead,tvStealth,tvUsername,tvExitNotif;
     Spinner spBaud;
     CheckBox cbAutoscroll;
     boolean canexit=false;
@@ -50,6 +50,7 @@ public class Receive extends AppCompatActivity implements ExampleDialog.ExampleD
         tvRead  = (TextView) findViewById(R.id.tvRead);
         tvUsername=(TextView)findViewById(R.id.Receive_tvUsername);
         tvStealth=(TextView)findViewById(R.id.Receive_tvStealth);
+        tvExitNotif=(TextView)findViewById(R.id.tvExitNotif);
         // --------------------------
         spBaud = (Spinner) findViewById(R.id.spinner);
         cbAutoscroll = (CheckBox)findViewById(R.id.autoscroll);
@@ -164,15 +165,16 @@ public class Receive extends AppCompatActivity implements ExampleDialog.ExampleD
             mPhysicaloid.write(buf, buf.length);
         }
         tvRead.setText(null);
-
+        tvExitNotif.setText("Press Generate button to Proceed");
+        tvExitNotif.setVisibility(View.VISIBLE);
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 setEnabledUi(true);
+
             }
         }, 2000);
-
     }
 
     public void openDialog()
@@ -199,6 +201,9 @@ public class Receive extends AppCompatActivity implements ExampleDialog.ExampleD
         BackgroundTask backgroundTask = new BackgroundTask(this);
         backgroundTask.execute(method,user_name,stealth_address);
         btWrite.setEnabled(false);
+
+        tvExitNotif.setVisibility(View.VISIBLE);
+        tvExitNotif.setText("Write down the Stealth Address, then press logo button to exit");
     }
 
 

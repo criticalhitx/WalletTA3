@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.InputFilter;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
@@ -66,7 +67,7 @@ public class RecoverSK extends AppCompatActivity {
         btVerify = (Button)findViewById(R.id.RecoverSK_btCheckValidity); // Check Validity button
         btOpen = (Button)findViewById(R.id.RecoverSK_connect);
         //-------------------------------------
-
+        etUsername.setFilters(new InputFilter[] {new InputFilter.LengthFilter(13)});
         ////////////////////////////////
         mPhysicaloid = new Physicaloid(this);
 

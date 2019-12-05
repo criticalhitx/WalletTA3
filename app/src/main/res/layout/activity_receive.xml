@@ -36,35 +36,49 @@
         android:textSize="20sp"
         android:layout_margin="20dp"
         android:gravity="center_horizontal"
+        android:visibility="gone"
         />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/Receive_tvUsername"/>
+        android:id="@+id/Receive_tvUsername"
+        android:visibility="gone"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/Receive_tvStealth"/>
+        android:id="@+id/Receive_tvStealth"
+        android:visibility="gone"/>
 
-        <Button
-            android:id="@+id/btOpen"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:onClick="onClickOpen"
-            android:text="Connect" />
+    <Button
+        android:id="@+id/btOpen"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:onClick="onClickOpen"
+        android:text="Connect" />
 
-        <Button
-            android:id="@+id/btWrite"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
+    <TextView
+        android:id="@+id/tvExitNotif"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#FFFFFF"
+        android:visibility="gone"
+        android:padding="25dp"
+        android:gravity="center_horizontal"/>
 
-            android:layout_marginBottom="30dp"
-            android:layout_gravity="center_horizontal"
-            android:onClick="onClickWrite"
-            android:text="Generate" />
+
+
+
+    <Button
+        android:id="@+id/btWrite"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:layout_gravity="center_horizontal"
+        android:onClick="onClickWrite"
+        android:text="Generate" />
 
 
 

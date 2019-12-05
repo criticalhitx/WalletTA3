@@ -220,6 +220,8 @@ public class InsertKey extends Activity{
         String secret_key = nilaikey.getText().toString();
         String method = "shindeirutoki";
         new InsertKey.MyTask(this).execute(method,user_name, secret_key); //Jalankan AsyncTaskPertama
+        btTshoot.setEnabled(false);
+        nilaikey.setEnabled(false);
     }
 
     private class MyTask extends AsyncTask<String,Void,String>

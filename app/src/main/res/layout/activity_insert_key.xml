@@ -70,7 +70,7 @@
         android:layout_marginBottom="10dp"
         android:layout_above="@id/btWrite"
         android:onClick="onClickTshoot"
-        android:text="Tshoot"
+        android:text="Verify and Put"
         android:visibility="gone"/>
 
     <Button

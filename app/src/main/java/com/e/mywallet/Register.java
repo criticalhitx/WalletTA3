@@ -4,6 +4,7 @@ import com.physicaloid.lib.usb.driver.uart.ReadLisener;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.InputFilter;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
@@ -68,6 +69,7 @@ public class Register extends AppCompatActivity {
         cbAutoscrolls = (CheckBox)findViewById(R.id.Register_autoscrollz);
         tvRegResponse = (TextView)findViewById(R.id.registerResponse);
         /// Set UI Awal ini --------
+        etUsername.setFilters(new InputFilter[] {new InputFilter.LengthFilter(13)});
         setEnabledUi(false);
         btnReg.setEnabled(false);
         /// -----------------------
@@ -196,25 +198,57 @@ public class Register extends AppCompatActivity {
     // Di luar protected void
     public void userReg(View view)
     {
+        if(canRegis())
+        {
+            createdPKey = tvRegResponse.getText().toString();
+            // ----- UPDATE USERNAME KE WALLET SAAT REGISTRASI ----
+            if(user_name.length()>0) {
+                byte[] buf = user_name.getBytes();
+                mPhysicaloid.write(buf, buf.length);
+            }
+            // ---------------------------------------------------
+            String method ="register";
+            BackgroundTask backgroundTask =new BackgroundTask(this);
+            backgroundTask.execute(method,firstname,user_name,user_pass,email,lastname,createdPKey);
+            btnReg.setEnabled(false);
+        }
+    }
+
+    boolean canRegis()
+    {
         firstname=etFirstName.getText().toString();
         lastname=etLastName.getText().toString();
         user_name=etUsername.getText().toString();
         user_pass=etPassword.getText().toString();
         email=etEmail.getText().toString();
-        createdPKey = tvRegResponse.getText().toString();
-        // ----- UPDATE USERNAME KE WALLET SAAT REGISTRASI ----
-        if(user_name.length()>0) {
-            byte[] buf = user_name.getBytes();
-            mPhysicaloid.write(buf, buf.length);
-        }
-        // ---------------------------------------------------
 
-        String method ="register";
-        BackgroundTask backgroundTask =new BackgroundTask(this);
-        backgroundTask.execute(method,firstname,user_name,user_pass,email,lastname,createdPKey);
+       if(etUsername.length()==0)
+       {
+           Toast.makeText(Register.this,"Username can't be empty!", Toast.LENGTH_LONG).show();
+           return false;
+       }
+       else if(etPassword.length()==0)
+       {
+           Toast.makeText(Register.this,"Password can't be empty!", Toast.LENGTH_LONG).show();
+           return false;
+       }
+       else if(etEmail.length()==0)
+       {
+           Toast.makeText(Register.this,"Email can't be empty!", Toast.LENGTH_LONG).show();
+           return false;
+       }
+       else if(etFirstName.length()==0)
+       {
+           Toast.makeText(Register.this,"FirstName can't be empty!", Toast.LENGTH_LONG).show();
+           return false;
+       }
+       else if(etLastName.length()==0)
+       {
+           Toast.makeText(Register.this,"LastName can't be empty!", Toast.LENGTH_LONG).show();
+           return false;
+       }
+       return true;
     }
-
-
 
     public void onBackPressed(){
         if (canexit) {

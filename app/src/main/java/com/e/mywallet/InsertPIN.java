@@ -146,31 +146,38 @@ public class InsertPIN extends Activity{
             @Override
             public void onClick(View v)
             {
-                String kirim = nilaiPin.getText().toString(); //Mengirim case 4 ke while loop, seharusnya gabung connect btOpens.
-                if(kirim.length()>0) {
-                    byte[] buf = kirim.getBytes();
-                    mPhysicaloid.write(buf, buf.length);}
+                if(nilaiPin.length()==8)
+                {
+                    String kirim = nilaiPin.getText().toString(); //Mengirim case 4 ke while loop, seharusnya gabung connect btOpens.
+                    if(kirim.length()>0) {
+                        byte[] buf = kirim.getBytes();
+                        mPhysicaloid.write(buf, buf.length);}
 
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        stringResp = insertpin_response.getText().toString();
-                        if (stringResp.equals("OK"))
-                        {
-                            Toast.makeText(InsertPIN.this,"PIN BENAR", Toast.LENGTH_LONG).show();
-                            insertpin_response.setVisibility(View.GONE);
-                            tvCeksama.setVisibility(View.GONE);
-                            nilaiPin.setVisibility(View.GONE);
-                            btOpenz.setVisibility(View.GONE);
-                            pinBaru.setVisibility(View.VISIBLE);
-                            btOldPIN.setVisibility(View.GONE);
-                            btNewPIN.setVisibility(View.VISIBLE);
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            stringResp = insertpin_response.getText().toString();
+                            if (stringResp.equals("OK"))
+                            {
+                                Toast.makeText(InsertPIN.this,"PIN BENAR", Toast.LENGTH_LONG).show();
+                                insertpin_response.setVisibility(View.GONE);
+                                tvCeksama.setVisibility(View.GONE);
+                                nilaiPin.setVisibility(View.GONE);
+                                btOpenz.setVisibility(View.GONE);
+                                pinBaru.setVisibility(View.VISIBLE);
+                                btOldPIN.setVisibility(View.GONE);
+                                btNewPIN.setVisibility(View.VISIBLE);
+                            }
                         }
-                    }
-                }, 3000);
-                btOldPIN.setEnabled(false);
-                nilaiPin.setEnabled(false);
+                    }, 3000);
+                    btOldPIN.setEnabled(false);
+                    nilaiPin.setEnabled(false);
+                }
+                else
+                {
+                    Toast.makeText(InsertPIN.this,"PIN harus 8 digit", Toast.LENGTH_LONG).show();
+                }
 
             }
         });
@@ -180,13 +187,20 @@ public class InsertPIN extends Activity{
             @Override
             public void onClick(View v)
             {
-                String kirim = pinBaru.getText().toString(); //Mengirim case 4 ke while loop, seharusnya gabung connect btOpens.
-                if(kirim.length()>0) {
-                    byte[] buf = kirim.getBytes();
-                    mPhysicaloid.write(buf, buf.length);}
+                if(pinBaru.length()==8)
+                {
+                    String kirim = pinBaru.getText().toString(); //Mengirim case 4 ke while loop, seharusnya gabung connect btOpens.
+                    if(kirim.length()>0) {
+                        byte[] buf = kirim.getBytes();
+                        mPhysicaloid.write(buf, buf.length);}
 
-                btNewPIN.setEnabled(false);
-                pinBaru.setEnabled(false);
+                    btNewPIN.setEnabled(false);
+                    pinBaru.setEnabled(false);
+                }
+                else
+                {
+                    Toast.makeText(InsertPIN.this,"PIN harus 8 digit",Toast.LENGTH_LONG).show();
+                }
             }
         });
 
