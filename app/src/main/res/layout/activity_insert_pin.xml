@@ -30,16 +30,17 @@
         android:layout_marginBottom="50dp"/>
 
     <EditText
-    android:id="@+id/nilaiPin"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_alignParentTop="true"
-    android:layout_centerHorizontal="true"
-    android:background="#ffffff"
-    android:hint="Enter Your OLD PIN"
-    android:padding="5dp"
-    android:inputType="text"
-    android:visibility="invisible"/>
+        android:id="@+id/nilaiPin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:background="#ffffff"
+        android:hint="Enter Your OLD PIN"
+        android:padding="5dp"
+        android:inputType="text"
+        android:visibility="invisible"
+        android:maxLength="8" />
 
     <EditText
         android:id="@+id/InsertPIN_pinbaru"
@@ -51,7 +52,8 @@
         android:hint="Enter your new PIN"
         android:padding="5dp"
         android:inputType="text"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        android:maxLength="8"/>
 
     <TextView
         android:id="@+id/insertpin_response"

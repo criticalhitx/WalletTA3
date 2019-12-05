@@ -65,7 +65,8 @@
         android:background="#ffffff"
         android:hint="New Username"
         android:padding="5dp"
-        android:inputType="text" />
+        android:inputType="text"
+        android:maxLength="13"/>
 
     <EditText
         android:id="@+id/RecoverSK_newPassword"
